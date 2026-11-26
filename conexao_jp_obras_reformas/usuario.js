@@ -52,3 +52,18 @@ app.post("/usuario", async (req, res) => {
         });
     }
 })
+
+app.put('/usuario/:id', async (req, res)=>{
+    const {id} = req.params
+    const {nome, email, senha, telefone} = req.body
+    try {
+        const sql = 'update usuario set nome = ?, email = ?, senha = ?, telefone = ? where id = ?'
+        const [atualizacao] = await conexao.query(sql, [nome, email, senha, telefone, id])
+
+        res.json({
+            mensagem: 'Usuário atualizado'
+        })
+    } catch (error) {
+        mensagem:'Erro ao atualizar o usuário'
+    }
+})
