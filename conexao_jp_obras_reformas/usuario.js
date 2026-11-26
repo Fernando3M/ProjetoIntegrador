@@ -52,3 +52,30 @@ app.post("/usuario", async (req, res) => {
         });
     }
 })
+
+app.put('/usuario/:id', async (req, res) => {
+    const { id } = req.params
+    const { nome, email, senha, telefone } = req.body
+    try {
+        const sql = 'update usuario set nome = ?, email = ?, senha = ?, telefone = ? where id = ?'
+        const [atualizacao] = await conexao.query(sql, [nome, email, senha, telefone, id])
+
+        res.json({
+            mensagem: 'Usuário atualizado'
+        })
+    } catch (error) {
+        res.status(500).json({
+            mensagem: 'Erro ao atualizar o usuário'
+        })
+    }
+})
+
+// app.delete('/usuario/:id', async (req, res) => {
+//     const { id } = req.params
+//     try {
+//         const sql = 'delete from usuario where id = ?'
+//         const [exclusao] = await conexao.query(sql[id])
+
+//         if (exclusao.affected)
+//     }
+// })
