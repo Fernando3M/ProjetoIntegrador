@@ -57,25 +57,43 @@ app.put('/usuario/:id', async (req, res) => {
     const { id } = req.params
     const { nome, email, senha, telefone } = req.body
     try {
-        const sql = 'update usuario set nome = ?, email = ?, senha = ?, telefone = ? where id = ?'
+        const sql = 'update usuario set nome = ?, email = ?, senha = ?, telefone = ? where id_usuario = ?'
         const [atualizacao] = await conexao.query(sql, [nome, email, senha, telefone, id])
+
+        if (atualizacao.affectedRows === 0) {
+            return res.status(404).json({
+            mensagem: 'Usuário inexistente'
+            })
+        }
 
         res.json({
             mensagem: 'Usuário atualizado'
         })
-    } catch (error) {
+    } catch (erro) {
         res.status(500).json({
             mensagem: 'Erro ao atualizar o usuário'
         })
     }
 })
 
-// app.delete('/usuario/:id', async (req, res) => {
-//     const { id } = req.params
-//     try {
-//         const sql = 'delete from usuario where id = ?'
-//         const [exclusao] = await conexao.query(sql[id])
+app.delete('/usuario/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const sql = 'delete from usuario where id_usuario = ?'
+        const [exclusao] = await conexao.query(sql, [id])
 
-//         if (exclusao.affected)
-//     }
-// })
+        res.json({
+            mensagem: "Usuário excluido com sucesso"
+        })
+
+        if (exclusao.affectedRows === 0) {
+            return res.status(404).json({
+                mensagem: 'Usuário inexistente'
+            })
+        }
+    } catch (erro) {
+        res.status(500).json({
+            mensagem: 'Não foi possível excluir o usuário'
+        })
+    }
+})
