@@ -64,7 +64,7 @@ app.put('/usuario/:id', async (req, res) => {
             mensagem: 'Usuário atualizado'
         })
     } catch (error) {
-        res.status(200).json({
+        res.status(500).json({
             mensagem: 'Erro ao atualizar o usuário'
         })
     }
