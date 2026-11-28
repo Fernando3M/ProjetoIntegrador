@@ -53,7 +53,7 @@ app.put("/prestador/:id", async (req, res)=>{
 
     try {
         const sql = 'update prestador set id_usuario = ?, nome_profissional = ?, descricao_profissional = ?, cidade = ? where id_prestador = ?'
-        const [atualizado] = await conexao.query(sql, [id_usuario, nome_profissional, descricao_profissional, cidade])
+        const [atualizado] = await conexao.query(sql, [id_usuario, nome_profissional, descricao_profissional, cidade, id])
 
         if (atualizado.affectedRows === 0){
             return res.status(404).json({
