@@ -71,3 +71,26 @@ app.put("/prestador/:id", async (req, res)=>{
         })
     }
 })
+
+app.delete("/prestador/:id", async (req, res) =>{
+    const {id} = req.params
+    try {
+        const sql = 'delete from prestador where id_prestador = ?'
+        const [exclusao] = await conexao.query(sql, [id])
+
+        res.json({
+            mensagem: "Prestador excluido com sucesso"
+        })
+
+        if(exclusao.affestedRows === 0){
+            return res.status(404).json({
+                mensagem: "Prestador inexistente"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            mensagem: 'Não foi possível excluir o prestador'
+        })
+        
+    }
+})
